@@ -10,7 +10,7 @@ board = [
     [0,0,0,0,0,0,0,0,0,0],
 ]
 
-def board_to_string(board):
+def to_string(board):
     w = len(board[0])+2
     str_repr = "="*w + "\n"
     for line in board:
@@ -19,7 +19,7 @@ def board_to_string(board):
     str_repr += "="*w + "\n"
     return str_repr 
 
-def board_from_string(string):
+def from_string(string):
     lines = string.split("\n")
     lines = map(lambda x: x.strip(), lines)
     lines = filter(bool, lines)
@@ -28,5 +28,6 @@ def board_from_string(string):
     lines = map(lambda line: map(lambda x: 1 if x == 'x' else 0, line), lines)
     return lines
 
-if __name__=="__main__":
-    print board_to_string(board)
+def from_file(filename):
+    with open(filename, 'r') as f:
+        return from_string(f.read())
