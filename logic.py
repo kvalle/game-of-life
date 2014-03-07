@@ -13,3 +13,10 @@ def value(board, p):
 
 def values(board, ps):
     return [value(board, p) for p in ps]
+
+def next_value(old, sum_neighbours):
+    if old == 1 and sum_neighbours in [2,3]:
+        return 1
+    if old == 0 and sum_neighbours == 3:
+        return 1
+    return 0
