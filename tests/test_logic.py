@@ -42,7 +42,26 @@ def test_get_values():
     assert_equals([0,0,1,0,1,1], 
         logic.values(b, [(0, 0), (0, 1), (0, 2), (1, 0), (1, 1), (1, 2)]))
 
-def test_next_board():
-    b = [[0,0,0,0],
-         [0,0,0,0],
-         [0,0,1,0]]
+def test_next_board_starvation():
+    b = [[0,0,0],
+         [0,1,0],
+         [0,0,0]]
+    expected = \
+        [[0,0,0],
+         [0,0,0],
+         [0,0,0]]
+    assert_equals(expected, logic.next_board(b))
+
+def test_next_board_reproduction():
+    b = [[0,0,0,0,0],
+         [0,0,1,0,0],
+         [0,0,1,0,0],
+         [0,0,1,0,0],
+         [0,0,0,0,0]]
+    expected = \
+        [[0,0,0,0,0],
+         [0,0,0,0,0],
+         [0,1,1,1,0],
+         [0,0,0,0,0],
+         [0,0,0,0,0]]
+    assert_equals(expected, logic.next_board(b))
