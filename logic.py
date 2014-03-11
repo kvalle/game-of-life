@@ -14,9 +14,23 @@ def value(board, p):
 def values(board, ps):
     return [value(board, p) for p in ps]
 
-def next_value(old, sum_neighbours):
-    if old == 1 and sum_neighbours in [2,3]:
+def new_value(old_val, sum_neighbours):
+    if old_val == 1 and sum_neighbours in [2,3]:
         return 1
-    if old == 0 and sum_neighbours == 3:
+    if old_val == 0 and sum_neighbours == 3:
         return 1
     return 0
+
+def next_val(board, pos):
+    sum_neighbours = sum([value(board, n) for n in neighbours(pos)])
+    old_val = value(board, pos)
+    return new_value(old_val, sum_neighbours)
+
+def empty_board(x,y):
+    return [[0]*y for _ in range(x)]
+
+def next_board(board):
+    b = empty_board(len(board), len(board[0]))
+    for (x,y) in members(board):
+        b[x][y] = next_val(board, (x,y))
+    return b
