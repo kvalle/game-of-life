@@ -65,3 +65,43 @@ def test_next_board_reproduction():
          [0,0,0,0,0],
          [0,0,0,0,0]]
     assert_equals(expected, logic.next_board(b))
+
+def test_block_stable():
+    block = [[0,0,0,0],
+             [0,1,1,0],
+             [0,1,1,0],
+             [0,0,0,0]]
+    result = logic.next_board(logic.next_board(logic.next_board(block)))
+    assert_equals(block, result)
+
+def test_beehive_stable():
+    next = logic.next_board
+    beehive = [[0,0,0,0,0,0],
+               [0,0,1,1,0,0],
+               [0,1,0,0,1,0],
+               [0,0,1,1,0,0],
+               [0,0,0,0,0,0]]
+    result = next(next(next(beehive)))
+    assert_equals(beehive, result)
+
+def test_toad_period():
+    next = logic.next_board
+    first = [[0,0,0,0,0,0],
+             [0,0,0,0,0,0],
+             [0,0,1,1,1,0],
+             [0,1,1,1,0,0],
+             [0,0,0,0,0,0],
+             [0,0,0,0,0,0]]
+    expected_second = \
+            [[0,0,0,0,0,0],
+             [0,0,0,1,0,0],
+             [0,1,0,0,1,0],
+             [0,1,0,0,1,0],
+             [0,0,1,0,0,0],
+             [0,0,0,0,0,0]]
+
+    second = next(first)
+    third = next(second)
+
+    assert_equals(expected_second, second)
+    assert_equals(third, first)
