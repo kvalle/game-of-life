@@ -1,5 +1,3 @@
-#!/usr/bin/env python
-
 def to_string(board):
     w = len(board[0])+2
     str_repr = "="*w + "\n"

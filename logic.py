@@ -34,3 +34,13 @@ def next_board(board):
     for (x,y) in members(board):
         b[x][y] = next_val(board, (x,y))
     return b
+
+def generations(board, limit):
+    while True:
+        limit -= 1
+        next = next_board(board)
+        yield next
+        if next == board or limit == 0:
+            yield next
+            break
+        board = next

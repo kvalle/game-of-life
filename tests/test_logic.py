@@ -3,7 +3,7 @@
 from nose.tools import assert_equals, assert_raises_regexp
 from os.path import dirname, relpath, join
 
-import logic
+import logic, board
 
 def test_get_members():
     b = [[0,1,1,1],
@@ -105,3 +105,26 @@ def test_toad_period():
 
     assert_equals(expected_second, second)
     assert_equals(third, first)
+
+def test_diehard_generations():
+    diehard = board.from_string("""
+        =================
+        |               |
+        |               |
+        |               |
+        |               |
+        |               |
+        |               |
+        |          x    |
+        |    xx         |
+        |     x   xxx   |
+        |               |
+        |               |
+        |               |
+        |               |
+        |               |
+        |               |
+        =================
+    """)
+    gens = list(logic.generations(diehard, limit=200))
+    assert_equals(131, len(gens))
