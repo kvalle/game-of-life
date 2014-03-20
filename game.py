@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-import sys, time
+import sys, os, time
 import argparse
 import logic, board
 
@@ -23,5 +23,6 @@ if __name__=='__main__':
         sys.exit(1)
 
     for gen in logic.generations(b, args.gens):
+        os.system('cls' if os.name == 'nt' else 'clear')
         print board.to_string(gen)
         time.sleep(args.sleep / 1000.)
