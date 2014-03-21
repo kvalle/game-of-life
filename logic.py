@@ -1,3 +1,5 @@
+# ~*~ encoding: utf-8 ~*~
+
 def members(board):
     return [(x,y) for x in range(len(board)) for y in range(len(board[0]))]
 

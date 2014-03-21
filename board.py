@@ -1,3 +1,5 @@
+# ~*~ encoding: utf-8 ~*~
+
 def to_string(board):
     w = len(board[0])+2
     str_repr = "="*w + "\n"
