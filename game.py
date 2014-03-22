@@ -5,11 +5,6 @@ import sys, os, time
 import argparse
 import logic, board
 
-def usage():
-    return """
-    usage: game.py BOARD-FILE [GENERATIONS]
-    """
-
 if __name__=='__main__':
     parser = argparse.ArgumentParser(description='Conway`s Game of Life')
     parser.add_argument('boardfile', type=str)
