@@ -11,6 +11,7 @@ if __name__=='__main__':
     parser.add_argument('boardfile', type=str)
     parser.add_argument('-g', '--max-gens', type=int, help='maximum number of generations (default: no limit)', default=None)
     parser.add_argument('-s', '--sleep-time', type=int, help='sleep time (default: 200 ms)', default=200)
+    parser.add_argument('-w', '--wrap-edges', action='store_true', default=False, help='enable wrapping on board edges')
     args = parser.parse_args()
 
     try:
@@ -19,11 +20,14 @@ if __name__=='__main__':
         print "Could not find board file:", sys.argv[1]
         sys.exit(1)
 
-    iterations = logic.generations(b)
+    iterations = logic.generations(b, wrap=args.wrap_edges)
     if args.max_gens:
         iterations = islice(iterations, args.max_gens)
 
     for b in logic.take_while_changing(iterations):
-        os.system('cls' if os.name == 'nt' else 'clear')
-        print board.to_string(b)
-        time.sleep(args.sleep_time / 1000.)
+        try:
+            os.system('cls' if os.name == 'nt' else 'clear')
+            print board.to_string(b)
+            time.sleep(args.sleep_time / 1000.)
+        except KeyboardInterrupt:
+            sys.exit(0)

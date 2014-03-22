@@ -2,6 +2,7 @@
 
 from nose.tools import assert_equals, assert_raises_regexp
 from os.path import dirname, relpath, join
+from itertools import islice
 
 import logic, board
 
@@ -19,6 +20,17 @@ def test_get_neighbours():
                 (5,1),        (5,3),
                 (6,1), (6,2), (6,3)]
     assert_equals(expected, logic.neighbours((5,2)))
+
+def test_get_neighbours_with_wrap():
+    expected = [(-1, -1), (-1, 0), (-1, 1), 
+                ( 0, -1),          ( 0, 1), 
+                ( 1, -1), ( 1, 0), ( 1, 1)]
+    assert_equals(expected, logic.neighbours((0,0), wrap=True))
+
+def test_get_neighbours_no_wrap():
+    expected = [         ( 0, 1), 
+                ( 1, 0), ( 1, 1)]
+    assert_equals(expected, logic.neighbours((0,0), wrap=False))
 
 def test_get_value_from_board():
     b = [[0,0,0],
@@ -108,23 +120,36 @@ def test_toad_period():
 
 def test_diehard_generations():
     diehard = board.from_string("""
-        =================
-        |               |
-        |               |
-        |               |
-        |               |
-        |               |
-        |               |
-        |          x    |
-        |    xx         |
-        |     x   xxx   |
-        |               |
-        |               |
-        |               |
-        |               |
-        |               |
-        |               |
-        =================
+        ========================================
+        |                                      |
+        |                                      |
+        |                                      |
+        |                                      |
+        |                                      |
+        |                                      |
+        |                      x               |
+        |                xx                    |
+        |                 x   xxx              |
+        |                                      |
+        |                                      |
+        |                                      |
+        |                                      |
+        |                                      |
+        |                                      |
+        |                                      |
+        |                                      |
+        |                                      |
+        |                                      |
+        |                                      |
+        |                                      |
+        |                                      |
+        |                                      |
+        |                                      |
+        |                                      |
+        |                                      |
+        ========================================
     """)
-    gens = list(logic.generations(diehard, limit=200))
-    assert_equals(131, len(gens))
+    gens = logic.generations(diehard)
+    gens = islice(gens, 200)
+    gens = logic.take_while_changing(gens)
+    assert_equals(131, len(list(gens)))
