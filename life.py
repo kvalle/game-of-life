@@ -5,8 +5,8 @@ import sys, os, time
 import argparse
 from itertools import islice
 
-import board
-from rules import Rules
+from game import board
+from game.rules import Rules
 
 if __name__=='__main__':
     parser = argparse.ArgumentParser(description='Conway`s Game of Life')
@@ -22,9 +22,9 @@ if __name__=='__main__':
         print "Could not find board file:", sys.argv[1]
         sys.exit(1)
 
-    rules = Rules()
+    rules = Rules(wrap=args.wrap_edges)
 
-    iterations = rules.generations(b, wrap=args.wrap_edges)
+    iterations = rules.generations(b)
     if args.max_gens:
         iterations = islice(iterations, args.max_gens)
 

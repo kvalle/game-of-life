@@ -1,18 +1,19 @@
 # ~*~ encoding: utf-8 ~*~
 
-DEFAULT_WRAP = False
-
 class Rules:
+
+    def __init__(self, wrap=False):
+        self.wrap = wrap
 
     def members(self, board):
         return [(x,y) for x in range(len(board)) 
                         for y in range(len(board[0]))]
 
-    def neighbours(self, pos, wrap=DEFAULT_WRAP):
+    def neighbours(self, pos):
         neighbours=  [(x,y) for x in range(pos[0]-1,pos[0]+2)
                                 for y in range(pos[1]-1, pos[1]+2)
                                     if x != pos[0] or y != pos[1]]
-        if not wrap:
+        if not self.wrap:
             neighbours = filter(lambda (x,y): x>=0 and y>=0, neighbours)
 
         return neighbours
@@ -32,24 +33,24 @@ class Rules:
             return 1
         return 0
 
-    def next_val(self, board, pos, wrap=DEFAULT_WRAP):
+    def next_val(self, board, pos):
         sum_neighbours = sum([self.value(board, n) 
-                                for n in self.neighbours(pos, wrap)])
+                                for n in self.neighbours(pos)])
         old_val = self.value(board, pos)
         return self.new_value(old_val, sum_neighbours)
 
     def empty_board(self, x,y):
         return [[0]*y for _ in range(x)]
 
-    def next_board(self, board, wrap=DEFAULT_WRAP):
+    def next_board(self, board):
         b = self.empty_board(len(board), len(board[0]))
         for (x,y) in self.members(board):
-            b[x][y] = self.next_val(board, (x,y), wrap)
+            b[x][y] = self.next_val(board, (x,y))
         return b
 
-    def generations(self, board, wrap=DEFAULT_WRAP):
+    def generations(self, board):
         while True:
-            board = self.next_board(board, wrap)
+            board = self.next_board(board)
             yield board
 
     def take_while_changing(self, iterations):

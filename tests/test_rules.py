@@ -28,12 +28,12 @@ def test_get_neighbours_with_wrap():
     expected = [(-1, -1), (-1, 0), (-1, 1), 
                 ( 0, -1),          ( 0, 1), 
                 ( 1, -1), ( 1, 0), ( 1, 1)]
-    assert_equals(expected, rules.neighbours((0,0), wrap=True))
+    assert_equals(expected, Rules(wrap=True).neighbours((0,0)))
 
 def test_get_neighbours_no_wrap():
     expected = [         ( 0, 1), 
                 ( 1, 0), ( 1, 1)]
-    assert_equals(expected, rules.neighbours((0,0), wrap=False))
+    assert_equals(expected, Rules(wrap=False).neighbours((0,0)))
 
 def test_get_value_from_board():
     b = [[0,0,0],
