@@ -37,12 +37,15 @@ def next_board(board):
         b[x][y] = next_val(board, (x,y))
     return b
 
-def generations(board, limit):
+def generations(board):
     while True:
-        limit -= 1
-        next = next_board(board)
-        yield next
-        if next == board or limit == 0:
-            yield next
+        board = next_board(board)
+        yield board
+
+def take_while_changing(iterations):
+    prev = None
+    for b in iterations:
+        yield b
+        if b == prev:
             break
-        board = next
+        prev = b
